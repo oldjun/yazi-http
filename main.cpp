@@ -1,13 +1,3 @@
-# yazi-http
-a c++ http server with epoll and thread pool
-
-|Author|junping|
-|---|---|
-|E-mail|oldjun@sina.com|
-|Wechat|chenjunping1024|
-
-## Start the HTTP server
-```c++
 #include <iostream>
 using namespace std;
 
@@ -19,22 +9,9 @@ using namespace yazi::utility;
 #include "Response.h"
 using namespace yazi::http;
 
-int main()
-{
-    Server * server = Singleton<Server>::instance();
+#include "Json.h"
+using namespace yazi::json;
 
-    server->on("/", handle_html);
-    server->on("/json", handle_json);
-
-    server->listen("", 15599);
-    server->start();
-
-    return 0;
-}
-```
-
-## Handle dynamic web request
-```c++
 void handle_html(const Request & req, Response & resp)
 {
     string html = "<!DOCTYPE html> \
@@ -61,14 +38,16 @@ void handle_json(const Request & req, Response & resp)
     
     resp.json(json.toString());
 }
-```
-## Handle static web request
-if server didn't register a `handler` to the specific request, server will look for the html page in the directory `html`.
 
-## Compile & Run the project
-download the source code, cd into the yazi-http project working directory, run command make && ./main 
-```bash
-cd ./yazi-http
-make
-./main
-```
+int main()
+{
+    Server * server = Singleton<Server>::instance();
+
+    server->on("/", handle_html);
+    server->on("/json", handle_json);
+
+    server->listen("", 15599);
+    server->start();
+
+    return 0;
+}
