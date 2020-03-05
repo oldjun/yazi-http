@@ -17,10 +17,12 @@ using namespace yazi::utility;
 #include "Server.h"
 #include "Request.h"
 #include "Response.h"
-using namespace yazi::http;
+using namespace yazi::server;
 
 int main()
 {
+    Singleton<System>::instance()->init();
+
     Server * server = Singleton<Server>::instance();
 
     server->on("/", handle_html);
