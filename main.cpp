@@ -1,13 +1,14 @@
 #include <iostream>
 using namespace std;
 
+#include "System.h"
 #include "Singleton.h"
 using namespace yazi::utility;
 
 #include "Server.h"
 #include "Request.h"
 #include "Response.h"
-using namespace yazi::http;
+using namespace yazi::server;
 
 #include "Json.h"
 using namespace yazi::json;
@@ -21,7 +22,7 @@ void handle_html(const Request & req, Response & resp)
                         <title>Welcome to yazi-http!</title> \
                     </head> \
                     <body> \
-                        <h1>this is html page</h1> \
+                        <h1>html page</h1> \
                         <p>yazi-http是一个轻量级的c++ http服务器</p> \
                     </body> \
                 </html>";
@@ -41,12 +42,12 @@ void handle_json(const Request & req, Response & resp)
 
 int main()
 {
-    Server * server = Singleton<Server>::instance();
+    Singleton<System>::instance()->init();
 
+    Server * server = Singleton<Server>::instance();
     server->on("/", handle_html);
     server->on("/json", handle_json);
-
-    server->listen("", 15599);
+    server->listen("", 8080);
     server->start();
 
     return 0;
